@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 
+import { Analytics } from "@vercel/analytics/react"
+
 const calendlyUrl = 'https://calendly.com/antonyjoaquim/30min'
 
 const content = {
