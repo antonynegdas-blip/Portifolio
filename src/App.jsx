@@ -1,6 +1,7 @@
 import { lazy, Suspense, useEffect, useState } from 'react'
 import { Analytics } from '@vercel/analytics/react'
 import ProjectCarousel from './components/ProjectCarousel'
+import ContactModal from './components/ContactModal'
 
 const HeroScene = lazy(() => import('./components/HeroScene'))
 const AboutOrbit = lazy(() => import('./components/AboutOrbit'))
@@ -138,6 +139,19 @@ const content = {
       contact: 'Start a conversation',
       backTop: 'Back to top ↑',
     },
+    contactModal: {
+      kicker: 'Direct channels',
+      title: 'Let’s get in touch.',
+      subtitle:
+        'Pick the channel that works best for you — book a quick call, send an email, or message me on WhatsApp.',
+      calendlyLabel: 'Calendly · 30-min call',
+      open: 'Schedule',
+      sendEmail: 'Email',
+      chat: 'Message',
+      copy: 'Copy',
+      copied: 'Copied ✓',
+      close: 'Close contact popup',
+    },
   },
   pt: {
     nav: { about: 'Sobre', work: 'Projetos', contact: 'Contato' },
@@ -256,6 +270,19 @@ const content = {
       contact: 'Iniciar uma conversa',
       backTop: 'Voltar ao topo ↑',
     },
+    contactModal: {
+      kicker: 'Canais diretos',
+      title: 'Vamos conversar.',
+      subtitle:
+        'Escolha o melhor canal para você — agende uma conversa rápida, envie um e-mail ou chame no WhatsApp.',
+      calendlyLabel: 'Calendly · Reunião de 30 min',
+      open: 'Agendar',
+      sendEmail: 'Enviar',
+      chat: 'Conversar',
+      copy: 'Copiar',
+      copied: 'Copiado ✓',
+      close: 'Fechar janela de contato',
+    },
   },
 }
 
@@ -264,6 +291,7 @@ function App() {
   const [darkMode, setDarkMode] = useState(true)
   const [scrollProgress, setScrollProgress] = useState(0)
   const [isScrolled, setIsScrolled] = useState(false)
+  const [isContactOpen, setIsContactOpen] = useState(false)
   const t = content[language]
 
   useEffect(() => {
@@ -312,10 +340,7 @@ function App() {
   const scrollTo = (id) =>
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
 
-  const openCalendly = () =>
-    calendlyUrl
-      ? window.open(calendlyUrl, '_blank', 'noopener,noreferrer')
-      : scrollTo('contact')
+  const openContact = () => setIsContactOpen(true)
 
   const handleCardSpotlight = (e) => {
     const rect = e.currentTarget.getBoundingClientRect()
@@ -348,7 +373,7 @@ function App() {
           <div className="nav-links">
             <button onClick={() => scrollTo('about')}>{t.nav.about}</button>
             <button onClick={() => scrollTo('work')}>{t.nav.work}</button>
-            <button onClick={openCalendly}>{t.nav.contact}</button>
+            <button onClick={openContact}>{t.nav.contact}</button>
           </div>
           <div className="nav-tools">
             <button
@@ -434,7 +459,7 @@ function App() {
             <span className="card-label">{t.grid.availabilityLabel}</span>
             <strong>{t.grid.availabilityValue}</strong>
           </div>
-          <button className="card-link" onClick={openCalendly}>
+          <button className="card-link" onClick={openContact}>
             {t.grid.availabilityAction}
           </button>
         </article>
@@ -519,7 +544,7 @@ function App() {
         <div className="footer-cta-wrap">
           <p className="kicker">{t.footer.line}</p>
           <h2>{t.footer.contact}</h2>
-          <button className="button button-light" onClick={openCalendly}>
+          <button className="button button-light" onClick={openContact}>
             {t.hero.contact} <span className="btn-arrow">↗</span>
           </button>
         </div>
@@ -535,6 +560,13 @@ function App() {
           </button>
         </div>
       </footer>
+
+      <ContactModal
+        isOpen={isContactOpen}
+        onClose={() => setIsContactOpen(false)}
+        labels={t.contactModal}
+        calendlyUrl={calendlyUrl}
+      />
 
       <Analytics />
     </main>

@@ -1719,3 +1719,335 @@ h1 {
     animation: none;
   }
 }
+
+/* Animated Contact Pop-up Modal */
+.contact-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  padding: 20px;
+  display: grid;
+  place-items: center;
+  background: rgba(12, 12, 11, 0.72);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.contact-modal-backdrop.is-open {
+  animation: modalBackdropIn 0.28s ease forwards;
+}
+
+.contact-modal-backdrop.is-closing {
+  animation: modalBackdropOut 0.24s ease forwards;
+}
+
+.contact-modal-card {
+  width: min(540px, 100%);
+  background: var(--card);
+  border: 1px solid var(--line);
+  padding: 28px;
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    0 28px 80px rgba(0, 0, 0, 0.45),
+    0 0 0 1px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+.contact-modal-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--accent);
+}
+
+.contact-modal-card.is-open {
+  animation: modalCardIn 0.36s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.contact-modal-card.is-closing {
+  animation: modalCardOut 0.22s cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+
+@keyframes modalBackdropIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modalBackdropOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes modalCardIn {
+  from {
+    opacity: 0;
+    transform: translateY(22px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes modalCardOut {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(14px) scale(0.96);
+  }
+}
+
+.contact-modal-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.contact-modal-close {
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.contact-modal-close:hover {
+  color: var(--text);
+  border-color: var(--accent-strong);
+  transform: rotate(90deg);
+}
+
+.contact-modal-header {
+  margin: 18px 0 24px;
+}
+
+.contact-modal-header h3 {
+  font-size: clamp(1.75rem, 3.5vw, 2.35rem);
+  letter-spacing: -0.06em;
+  line-height: 1.05;
+  margin: 0 0 10px;
+}
+
+.contact-modal-header p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.contact-channels {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.contact-channel-row {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+}
+
+.contact-channel-item {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 15px 16px;
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--bg) 55%, var(--card));
+  transition:
+    border-color 0.22s ease,
+    transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+    background 0.22s ease;
+}
+
+.contact-channel-item:hover {
+  border-color: var(--accent-strong);
+  background: var(--card);
+  transform: translateX(3px);
+}
+
+.contact-channel-item.is-featured {
+  border-color: color-mix(in srgb, var(--accent-strong) 45%, var(--line));
+  background:
+    radial-gradient(
+      260px circle at 0% 50%,
+      color-mix(in srgb, var(--accent) 12%, transparent),
+      transparent 75%
+    ),
+    color-mix(in srgb, var(--bg) 45%, var(--card));
+}
+
+.contact-channel-icon {
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--accent-strong);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background 0.22s ease,
+    color 0.22s ease,
+    border-color 0.22s ease;
+}
+
+.contact-channel-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.contact-channel-item:hover .contact-channel-icon {
+  background: var(--accent);
+  color: #171717;
+  border-color: var(--accent);
+}
+
+.contact-channel-body {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.contact-channel-label {
+  font:
+    500 0.62rem "DM Mono",
+    monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--muted);
+}
+
+.contact-channel-value {
+  font-size: 0.94rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.contact-channel-action {
+  margin-left: auto;
+  flex-shrink: 0;
+  font:
+    500 0.64rem "DM Mono",
+    monospace;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: color 0.2s ease;
+}
+
+.contact-channel-action i {
+  font-style: normal;
+  transition: transform 0.22s ease;
+}
+
+.contact-channel-item:hover .contact-channel-action {
+  color: var(--accent-strong);
+}
+
+.contact-channel-item:hover .contact-channel-action i {
+  transform: translate(2px, -2px);
+}
+
+.contact-copy-btn {
+  flex-shrink: 0;
+  padding: 0 13px;
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--bg) 55%, var(--card));
+  color: var(--muted);
+  font:
+    500 0.62rem "DM Mono",
+    monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease,
+    background 0.2s ease;
+}
+
+.contact-copy-btn:hover {
+  border-color: var(--accent-strong);
+  color: var(--text);
+}
+
+.contact-copy-btn.is-copied {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #171717;
+}
+
+/* Staggered entrance for contact items */
+@keyframes contactItemIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.contact-modal-card.is-open .contact-stagger-1 {
+  animation: contactItemIn 0.35s cubic-bezier(0.22, 1, 0.36, 1) 0.06s both;
+}
+
+.contact-modal-card.is-open .contact-stagger-2 {
+  animation: contactItemIn 0.35s cubic-bezier(0.22, 1, 0.36, 1) 0.12s both;
+}
+
+.contact-modal-card.is-open .contact-stagger-3 {
+  animation: contactItemIn 0.35s cubic-bezier(0.22, 1, 0.36, 1) 0.18s both;
+}
+
+@media (max-width: 560px) {
+  .contact-modal-card {
+    padding: 22px 18px;
+  }
+
+  .contact-channel-action {
+    display: none;
+  }
+
+  .contact-channel-value {
+    font-size: 0.84rem;
+  }
+
+  .contact-copy-btn {
+    padding: 0 10px;
+  }
+}
