@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Editorial dark badge with subtle border -->
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="#171717" stroke="#373735" stroke-width="2" />
+
+  <!-- Bold geometric "A" (Manrope ExtraBold style) -->
+  <path
+    fill="#F4F4F0"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    d="M14.4 18H20.6L28.6 46H22.3L20.9 40.5H14.1L12.7 46H6.4L14.4 18ZM17.5 25.2L15.2 35.3H19.8L17.5 25.2Z"
+  />
+
+  <!-- Bold geometric "J" -->
+  <path
+    fill="#F4F4F0"
+    d="M41.2 18H47.4V36.2C47.4 42.5 43.7 46.5 37.6 46.5C34.2 46.5 31.6 45.2 30.2 43.0L34.3 39.4C35.1 40.6 36.1 41.2 37.6 41.2C39.9 41.2 41.2 39.5 41.2 36.2V18Z"
+  />
+
+  <!-- Signature electric lime dot "." -->
+  <circle cx="53.8" cy="42.2" r="4.1" fill="#C7FF4A" />
+</svg>
