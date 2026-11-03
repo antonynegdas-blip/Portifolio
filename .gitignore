@@ -45,3 +45,6 @@ Desktop.ini
 # Temporary files
 *.tmp
 *.temp
+
+# Tasks and pending notes
+Faltando.txt

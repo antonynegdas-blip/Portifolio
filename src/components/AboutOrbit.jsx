@@ -309,11 +309,13 @@ function FallbackOrbit2D({
   setHoveredIndex,
   activeIndex,
   setActiveIndex,
+  isVisible = true,
 }) {
   const cardRefs = useRef([])
   const angleRef = useRef(0)
 
   useEffect(() => {
+    if (!isVisible) return
     let rafId
     let last = performance.now()
 
@@ -344,7 +346,7 @@ function FallbackOrbit2D({
 
     rafId = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafId)
-  }, [items.length, isPaused, hoveredIndex])
+  }, [items.length, isPaused, hoveredIndex, isVisible])
 
   return (
     <div className="orbit-fallback-stage">
@@ -384,11 +386,28 @@ export default function AboutOrbit({ items, darkMode, labels }) {
   const [isPaused, setIsPaused] = useState(false)
   const [hoveredIndex, setHoveredIndex] = useState(null)
   const [activeIndex, setActiveIndex] = useState(0)
+  const [isVisible, setIsVisible] = useState(true)
+  const wrapperRef = useRef(null)
   const stagePointer = useRef({ x: 0, y: 0 })
 
   const activeItem = items[hoveredIndex ?? activeIndex] ?? items[0]
 
+  useEffect(() => {
+    const el = wrapperRef.current
+    if (!el || !('IntersectionObserver' in window)) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting)
+      },
+      { threshold: 0.05 }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
   const handlePointerMove = (e) => {
+    if (!isVisible) return
     const rect = e.currentTarget.getBoundingClientRect()
     stagePointer.current.x = ((e.clientX - rect.left) / rect.width) * 2 - 1
     stagePointer.current.y = ((e.clientY - rect.top) / rect.height) * 2 - 1
@@ -401,6 +420,7 @@ export default function AboutOrbit({ items, darkMode, labels }) {
 
   return (
     <div
+      ref={wrapperRef}
       className="about-orbit-wrapper"
       onPointerMove={handlePointerMove}
       onPointerLeave={handlePointerLeave}
@@ -430,10 +450,12 @@ export default function AboutOrbit({ items, darkMode, labels }) {
               setHoveredIndex={setHoveredIndex}
               activeIndex={activeIndex}
               setActiveIndex={setActiveIndex}
+              isVisible={isVisible}
             />
           }
         >
           <Canvas
+            frameloop={isVisible ? 'always' : 'never'}
             dpr={[1, 1.75]}
             camera={{ position: [0, 1.85, 5.9], fov: 42 }}
             gl={{ antialias: true, alpha: true }}

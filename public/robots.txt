@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://antonyjoaquim.vercel.app/sitemap.xml
+

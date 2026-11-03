@@ -12,7 +12,10 @@ export default function ProjectCarousel({
   const [activeIndex, setActiveIndex] = useState(0)
   const [direction, setDirection] = useState('next')
   const [tilt, setTilt] = useState({ rx: 0, ry: 0, gx: 50, gy: 50, active: false })
+  const [isMouseActive, setIsMouseActive] = useState(false)
   const touchStartX = useRef(null)
+  const mouseStartX = useRef(null)
+  const isDragging = useRef(false)
 
   const total = projects.length
   if (!total) return null
@@ -65,6 +68,47 @@ export default function ProjectCarousel({
     touchStartX.current = null
   }
 
+  const handleMouseDown = (e) => {
+    if (e.button !== 0) return
+    // Don't drag if clicking directly on a button or interactive element
+    if (e.target.closest('button, a')) return
+    mouseStartX.current = e.clientX
+    isDragging.current = true
+    setIsMouseActive(true)
+    if (window.getSelection) {
+      window.getSelection().removeAllRanges()
+    }
+  }
+
+  const handleMouseMove = (e) => {
+    if (isDragging.current && mouseStartX.current !== null) {
+      e.preventDefault()
+    }
+  }
+
+  const handleMouseUp = (e) => {
+    if (!isDragging.current || mouseStartX.current === null) {
+      isDragging.current = false
+      setIsMouseActive(false)
+      return
+    }
+    const delta = mouseStartX.current - e.clientX
+    if (Math.abs(delta) > 42) {
+      if (delta > 0) goNext()
+      else goPrev()
+    }
+    mouseStartX.current = null
+    isDragging.current = false
+    setIsMouseActive(false)
+  }
+
+  const handleMouseLeave = () => {
+    mouseStartX.current = null
+    isDragging.current = false
+    setIsMouseActive(false)
+    resetCardTilt()
+  }
+
   const handleCardMove = (e) => {
     const rect = e.currentTarget.getBoundingClientRect()
     const px = (e.clientX - rect.left) / rect.width
@@ -92,9 +136,13 @@ export default function ProjectCarousel({
     >
       {/* Top Visual Stage: Peeking Side Previews + Centered Active Image + Loop Arrows */}
       <div
-        className="carousel-stage"
+        className={`carousel-stage ${isMouseActive ? 'is-dragging' : ''}`}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseLeave}
       >
         {/* Previous peeking project (loops cleanly) */}
         {total > 1 && (
@@ -109,7 +157,7 @@ export default function ProjectCarousel({
               className={`carousel-peek-frame ${prevProject.fitMode === 'cover' ? 'is-cover' : ''}`}
             >
               {prevProject.image ? (
-                <img src={prevProject.image} alt="" loading="lazy" />
+                <img src={prevProject.image} alt="" loading="lazy" decoding="async" draggable={false} />
               ) : (
                 <span className="carousel-placeholder-num">
                   {String(prevIndex + 1).padStart(2, '0')}
@@ -167,6 +215,8 @@ export default function ProjectCarousel({
                     src={activeProject.image}
                     alt={`${activeProject.name} preview`}
                     className="carousel-cover-img"
+                    decoding="async"
+                    draggable={false}
                   />
                 ) : (
                   <div className="carousel-fallback-art">
@@ -213,11 +263,16 @@ export default function ProjectCarousel({
                         alt=""
                         aria-hidden="true"
                         className="carousel-ambient-img"
+                        loading="lazy"
+                        decoding="async"
+                        draggable={false}
                       />
                       <img
                         src={activeProject.image}
                         alt={`${activeProject.name} preview`}
                         className="carousel-main-img"
+                        decoding="async"
+                        draggable={false}
                       />
                     </>
                   ) : (
@@ -263,7 +318,7 @@ export default function ProjectCarousel({
               className={`carousel-peek-frame ${nextProject.fitMode === 'cover' ? 'is-cover' : ''}`}
             >
               {nextProject.image ? (
-                <img src={nextProject.image} alt="" loading="lazy" />
+                <img src={nextProject.image} alt="" loading="lazy" decoding="async" draggable={false} />
               ) : (
                 <span className="carousel-placeholder-num">
                   {String(nextIndex + 1).padStart(2, '0')}

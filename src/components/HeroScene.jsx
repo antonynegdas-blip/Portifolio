@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 import WebGLBoundary from './WebGLBoundary'
@@ -182,18 +182,35 @@ function KineticSculpture({ darkMode, mouseRef }) {
 
 export default function HeroScene({ darkMode }) {
   const mouseRef = useRef({ x: 0, y: 0 })
+  const containerRef = useRef(null)
+  const [isVisible, setIsVisible] = useState(true)
 
   useEffect(() => {
+    const el = containerRef.current
+    if (!el || !('IntersectionObserver' in window)) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting)
+      },
+      { threshold: 0.05 }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
+  useEffect(() => {
+    if (!isVisible) return
     const handleMove = (event) => {
       mouseRef.current.x = (event.clientX / window.innerWidth) * 2 - 1
       mouseRef.current.y = (event.clientY / window.innerHeight) * 2 - 1
     }
     window.addEventListener('pointermove', handleMove, { passive: true })
     return () => window.removeEventListener('pointermove', handleMove)
-  }, [])
+  }, [isVisible])
 
   return (
-    <div className="hero-canvas-wrap" aria-hidden="true">
+    <div ref={containerRef} className="hero-canvas-wrap" aria-hidden="true">
       <WebGLBoundary
         fallback={
           <div className="hero-fallback-orb">
@@ -204,6 +221,7 @@ export default function HeroScene({ darkMode }) {
         }
       >
         <Canvas
+          frameloop={isVisible ? 'always' : 'never'}
           dpr={[1, 1.75]}
           camera={{ position: [0, 0, 5.4], fov: 44 }}
           gl={{ antialias: true, alpha: true }}

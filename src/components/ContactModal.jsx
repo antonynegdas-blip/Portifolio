@@ -1,13 +1,17 @@
 import { useEffect, useState } from 'react'
 
-export default function ContactModal({ isOpen, onClose, labels, calendlyUrl }) {
+export default function ContactModal({ isOpen, onClose, labels, calendlyUrl, language = 'en' }) {
   const [shouldRender, setShouldRender] = useState(isOpen)
   const [isClosing, setIsClosing] = useState(false)
   const [copiedField, setCopiedField] = useState(null)
 
   const email = 'antonynegdas@gmail.com'
-  const phoneDisplay = '79 98813-4644'
-  const whatsappUrl = 'https://wa.me/5579988134644'
+  const phoneDisplay = '+55 79 98813-4644'
+  const whatsappMessage =
+    language === 'pt'
+      ? 'Olá Antony! Vi seu portfólio e gostaria de conversar sobre um projeto.'
+      : 'Hi Antony! I saw your portfolio and would like to talk about a project.'
+  const whatsappUrl = `https://wa.me/5579988134644?text=${encodeURIComponent(whatsappMessage)}`
 
   useEffect(() => {
     if (isOpen) {
