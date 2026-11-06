@@ -4,6 +4,7 @@ import ProjectCarousel from './components/ProjectCarousel'
 import ContactModal from './components/ContactModal'
 import ImpactMetrics from './components/ImpactMetrics'
 import FAQ from './components/FAQ'
+import AllProjects from './components/AllProjects'
 import { calendlyUrl, content, marqueeItems } from './data/content'
 
 const HeroScene = lazy(() => import('./components/HeroScene'))
@@ -44,7 +45,27 @@ function App() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isContactOpen, setIsContactOpen] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [currentView, setCurrentView] = useState(() => {
+    if (typeof window !== 'undefined' && window.location.hash === '#projects') {
+      return 'projects'
+    }
+    return 'home'
+  })
   const t = content[language]
+
+  // Synchronize browser history / URL hash (#projects) with current view
+  useEffect(() => {
+    const handlePopState = () => {
+      const isProjects = window.location.hash === '#projects'
+      setCurrentView(isProjects ? 'projects' : 'home')
+      if (isProjects) {
+        window.scrollTo({ top: 0, behavior: 'instant' })
+      }
+    }
+
+    window.addEventListener('popstate', handlePopState)
+    return () => window.removeEventListener('popstate', handlePopState)
+  }, [])
 
   // Lock body scroll and listen for Escape key / window resize when mobile menu is open
   useEffect(() => {
@@ -124,10 +145,42 @@ function App() {
 
     elements.forEach((el) => observer.observe(el))
     return () => observer.disconnect()
-  }, [])
+  }, [currentView])
 
   const scrollTo = (id) =>
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+
+  const goToProjects = () => {
+    setCurrentView('projects')
+    setIsMobileMenuOpen(false)
+    if (window.location.hash !== '#projects') {
+      window.history.pushState(null, '', '#projects')
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const goHome = (targetId = 'top') => {
+    setIsMobileMenuOpen(false)
+    if (currentView !== 'home') {
+      setCurrentView('home')
+      if (window.location.hash) {
+        window.history.pushState(null, '', window.location.pathname)
+      }
+      if (targetId && targetId !== 'top') {
+        setTimeout(() => {
+          document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth' })
+        }, 60)
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      }
+    } else {
+      if (targetId === 'top') {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      } else {
+        document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth' })
+      }
+    }
+  }
 
   const openContact = () => setIsContactOpen(true)
 
@@ -154,17 +207,20 @@ function App() {
         <nav className="nav shell" aria-label="Main Navigation">
           <button
             className="brand"
-            onClick={() => {
-              scrollTo('top')
-              setIsMobileMenuOpen(false)
-            }}
+            onClick={() => goHome('top')}
             aria-label="Antony Joaquim - Go to top"
           >
             AJ<span>.</span>
           </button>
           <div className="nav-links">
-            <button type="button" onClick={() => scrollTo('about')}>{t.nav.about}</button>
-            <button type="button" onClick={() => scrollTo('work')}>{t.nav.work}</button>
+            <button type="button" onClick={() => goHome('about')}>{t.nav.about}</button>
+            <button
+              type="button"
+              className={currentView === 'projects' ? 'is-active-nav' : ''}
+              onClick={goToProjects}
+            >
+              {t.nav.work}
+            </button>
             <button type="button" onClick={openContact}>{t.nav.contact}</button>
           </div>
           <div className="nav-tools">
@@ -210,10 +266,7 @@ function App() {
               <button
                 type="button"
                 className="mobile-nav-item"
-                onClick={() => {
-                  setIsMobileMenuOpen(false)
-                  scrollTo('about')
-                }}
+                onClick={() => goHome('about')}
               >
                 <span className="mobile-nav-num">01</span>
                 <span className="mobile-nav-label">{t.nav.about}</span>
@@ -222,10 +275,7 @@ function App() {
               <button
                 type="button"
                 className="mobile-nav-item"
-                onClick={() => {
-                  setIsMobileMenuOpen(false)
-                  scrollTo('work')
-                }}
+                onClick={goToProjects}
               >
                 <span className="mobile-nav-num">02</span>
                 <span className="mobile-nav-label">{t.nav.work}</span>
@@ -265,8 +315,16 @@ function App() {
         </div>
       </header>
 
-      {/* Hero Section with Interactive Three.js Kinetic Sculpture */}
-      <section id="top" className="hero shell">
+      {currentView === 'projects' ? (
+        <AllProjects
+          data={t.allProjects}
+          onBack={() => goHome('top')}
+          onContact={openContact}
+        />
+      ) : (
+        <>
+          {/* Hero Section with Interactive Three.js Kinetic Sculpture */}
+          <section id="top" className="hero shell">
         <div className="hero-copy">
           <p className="eyebrow hero-stagger-1">
             <span className="status-dot" aria-hidden="true" />
@@ -416,10 +474,22 @@ function App() {
           liveLabel={t.work.live}
           conceptLabel={t.work.concept}
         />
+
+        <div className="work-all-action">
+          <button
+            type="button"
+            className="button button-dark work-all-btn"
+            onClick={goToProjects}
+          >
+            {t.work.viewAll} <span className="btn-arrow" aria-hidden="true">→</span>
+          </button>
+        </div>
       </section>
 
-      {/* Frequently Asked Questions Accordion */}
-      <FAQ data={t.faq} />
+          {/* Frequently Asked Questions Accordion */}
+          <FAQ data={t.faq} />
+        </>
+      )}
 
       {/* Living Footer */}
       <footer id="contact" className="footer shell reveal-block" data-reveal>
@@ -436,7 +506,7 @@ function App() {
           <button
             type="button"
             className="back-top-btn"
-            onClick={() => scrollTo('top')}
+            onClick={() => (currentView === 'home' ? scrollTo('top') : window.scrollTo({ top: 0, behavior: 'smooth' }))}
           >
             {t.footer.backTop}
           </button>

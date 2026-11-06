@@ -102,6 +102,7 @@ export const content = {
       next: 'Next project',
       live: 'Live',
       concept: 'Concept',
+      viewAll: 'View all projects',
       projects: [
         {
           name: "Sant's Barbershop",
@@ -210,6 +211,78 @@ export const content = {
       copied: 'Copied ✓',
       close: 'Close contact popup',
     },
+    allProjects: {
+      kicker: 'Portfolio & Archive',
+      title: 'All Projects',
+      subtitle:
+        'A comprehensive collection of digital experiences, products and experiments I’ve built or co-created.',
+      backHome: 'Back to home',
+      sections: {
+        builtByMe: {
+          title: 'Built by me',
+          subtitle:
+            'Original client work and digital concepts engineered from the ground up with clean code, responsive layouts and robust structure.',
+          badge: 'Core Work',
+          projects: [
+            {
+              name: "Sant's Barbershop",
+              type: 'Service-based website',
+              description:
+                'A professional website concept for a modern barbershop, engineered to showcase services, build trust and convert visitors into appointments.',
+              tags: ['React', 'Python', 'PostgreSQL', 'Docker'],
+              link: '',
+              image: '/images/Sants.webp',
+            },
+            {
+              name: 'Pulso Studio',
+              type: 'Landing page',
+              description:
+                'A high-performance landing page for a fitness studio, focused on presenting training modalities and driving member enrollments.',
+              tags: ['HTML5', 'CSS3', 'React', 'Vercel CI/CD'],
+              link: 'https://pulsostudio-theta.vercel.app/',
+              image: '/images/Pulso.webp',
+            },
+            {
+              name: 'School Institution Website',
+              type: 'Institutional portal',
+              description:
+                'A clean educational portal concept designed for students, parents and staff to access announcements, resources and support effortlessly.',
+              tags: ['React', 'Node.js', 'PostgreSQL', 'DevOps'],
+              link: '',
+              image: '/images/School.webp',
+              fitMode: 'cover',
+            },
+          ],
+        },
+        vibeCoding: {
+          title: 'Vibe Coding',
+          subtitle:
+            'Fast-paced, intelligent web applications and modern tools built through rapid iteration and AI-assisted workflows.',
+          badge: 'AI & Vibe Coding',
+          projects: [
+            {
+              name: 'NextCV',
+              type: 'ATS Resume Optimizer & AI Scoring',
+              description:
+                'Boost your interview chances. Analyze resume match against job specifications, detect missing keywords and generate ATS-calibrated resumes for automated screening with AI.',
+              tags: ['Next.js', 'React', 'Tailwind CSS', 'Vibe Coding', 'AI Engine'],
+              link: 'https://nextcvv1.vercel.app/',
+              image: '/images/NextCV.webp',
+            },
+          ],
+        },
+      },
+      view: 'View project',
+      soon: 'Coming soon',
+      live: 'Live',
+      concept: 'Concept',
+      cta: {
+        kicker: 'Start a project',
+        title: 'Have a project in mind?',
+        text: 'Let’s turn your idea into a fast, functional website or application.',
+        button: 'Get in touch',
+      },
+    },
   },
   pt: {
     nav: {
@@ -298,6 +371,7 @@ export const content = {
       next: 'Próximo projeto',
       live: 'No ar',
       concept: 'Conceito',
+      viewAll: 'Ver todos os projetos',
       projects: [
         {
           name: "Sant's Barbershop",
@@ -405,6 +479,78 @@ export const content = {
       copy: 'Copiar',
       copied: 'Copiado ✓',
       close: 'Fechar janela de contato',
+    },
+    allProjects: {
+      kicker: 'Portfólio & Arquivo',
+      title: 'Todos os Projetos',
+      subtitle:
+        'Um índice completo de experiências digitais, produtos e experimentos desenvolvidos com propósito e tecnologia moderna.',
+      backHome: 'Voltar ao início',
+      sections: {
+        builtByMe: {
+          title: 'Feitos por mim',
+          subtitle:
+            'Projetos autorais desenvolvidos do zero com código limpo, layout responsivo e arquitetura estruturada.',
+          badge: 'Projetos Autorais',
+          projects: [
+            {
+              name: "Sant's Barbershop",
+              type: 'Site para serviços',
+              description:
+                'Um conceito de site profissional para barbearia, desenhado para apresentar o catálogo de serviços, gerar credibilidade e atrair novos clientes.',
+              tags: ['React', 'Python', 'PostgreSQL', 'Docker'],
+              link: '',
+              image: '/images/Sants.webp',
+            },
+            {
+              name: 'Pulso Studio',
+              type: 'Landing page',
+              description:
+                'Landing page de alta conversão para estúdio fitness, com foco na apresentação visual das modalidades e captação de novos membros.',
+              tags: ['HTML5', 'CSS3', 'React', 'Vercel CI/CD'],
+              link: 'https://pulsostudio-theta.vercel.app/',
+              image: '/images/Pulso.webp',
+            },
+            {
+              name: 'Site para instituição escolar',
+              type: 'Portal institucional',
+              description:
+                'Conceito de portal escolar institucional para conectar estudantes, responsáveis e corpo docente com agilidade e clareza informativa.',
+              tags: ['React', 'Node.js', 'PostgreSQL', 'DevOps'],
+              link: '',
+              image: '/images/School.webp',
+              fitMode: 'cover',
+            },
+          ],
+        },
+        vibeCoding: {
+          title: 'Vibe Coding',
+          subtitle:
+            'Aplicações e ferramentas web ágeis desenvolvidas com iteração rápida, inteligência artificial e engenharia de ponta.',
+          badge: 'IA & Vibe Coding',
+          projects: [
+            {
+              name: 'NextCV',
+              type: 'Otimizador de Currículos Tech para ATS e Gupy',
+              description:
+                'Aumente suas chances de entrevista. Analise a aderência do seu currículo tech à vaga, identifique palavras-chave faltantes e gere um currículo calibrado para triagem automatizada com IA.',
+              tags: ['Next.js', 'React', 'Tailwind CSS', 'Vibe Coding', 'IA'],
+              link: 'https://nextcvv1.vercel.app/',
+              image: '/images/NextCV.webp',
+            },
+          ],
+        },
+      },
+      view: 'Ver projeto',
+      soon: 'Em breve',
+      live: 'No ar',
+      concept: 'Conceito',
+      cta: {
+        kicker: 'Iniciar projeto',
+        title: 'Tem um projeto em mente?',
+        text: 'Vamos transformar sua ideia em um site ou aplicação rápida e funcional.',
+        button: 'Entrar em contato',
+      },
     },
   },
 }
