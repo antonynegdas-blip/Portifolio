@@ -261,13 +261,13 @@ export const content = {
           badge: 'AI & Vibe Coding',
           projects: [
             {
-              name: 'NextCV',
+              name: 'AstraCV',
               type: 'ATS Resume Optimizer & AI Scoring',
               description:
-                'Boost your interview chances. Analyze resume match against job specifications, detect missing keywords and generate ATS-calibrated resumes for automated screening with AI.',
+                'Boost your interview chances. Analyze tech resume match against job specifications, detect missing keywords and generate ATS-calibrated resumes for automated screening with AstraCV.',
               tags: ['Next.js', 'React', 'Tailwind CSS', 'Vibe Coding', 'AI Engine'],
-              link: 'https://nextcvv1.vercel.app/',
-              image: '/images/NextCV.webp',
+              link: 'https://astracv.vercel.app/',
+              image: '/images/AstraCV.webp',
             },
           ],
         },
@@ -530,13 +530,13 @@ export const content = {
           badge: 'IA & Vibe Coding',
           projects: [
             {
-              name: 'NextCV',
+              name: 'AstraCV',
               type: 'Otimizador de Currículos Tech para ATS e Gupy',
               description:
-                'Aumente suas chances de entrevista. Analise a aderência do seu currículo tech à vaga, identifique palavras-chave faltantes e gere um currículo calibrado para triagem automatizada com IA.',
+                'Aumente suas chances de entrevista. Analise a aderência do seu currículo tech à vaga, identifique palavras-chave faltantes e gere um currículo calibrado para triagem automatizada com AstraCV.',
               tags: ['Next.js', 'React', 'Tailwind CSS', 'Vibe Coding', 'IA'],
-              link: 'https://nextcvv1.vercel.app/',
-              image: '/images/NextCV.webp',
+              link: 'https://astracv.vercel.app/',
+              image: '/images/AstraCV.webp',
             },
           ],
         },
